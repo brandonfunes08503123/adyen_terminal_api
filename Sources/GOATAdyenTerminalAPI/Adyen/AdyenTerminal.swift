@@ -25,7 +25,7 @@ struct AdyenTerminal {
     ///
     func pay(transactionID: String, currency: String, amountCents: Int) async throws -> PaymentResponse {
         let messageHeader = MessageHeader(protocolVersion: "3.0", messageClass: .service, messageCategory: .payment, messageType: .request, serviceID: UUID().description.suffix(10).description, deviceID: nil, saleID: "POS_\(location)_\(number)", pOIID: poiId)
-        let saleData = SaleData(saleTransactionID: TransactionIDType(transactionID: transactionID, timeStamp: Date.now))
+        let saleData = SaleData(saleTransactionID: TransactionIDType(transactionID: transactionID, timeStamp: Date()))
         let paymentTransaction = PaymentTransaction(amountsReq: AmountsReq(currency: currency, requestedAmount: (Float(amountCents) / 100.0)))
         let paymentRequest = PaymentRequest(saleData: saleData, paymentTransaction: paymentTransaction)
         let request = AdyenTerminalRequest<PaymentRequest>(saleToPOIRequest: SaleToPOIRequest(messageHeader: messageHeader, request: paymentRequest))
