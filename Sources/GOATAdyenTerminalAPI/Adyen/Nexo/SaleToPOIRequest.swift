@@ -19,7 +19,7 @@ public struct SaleToPOIRequest<T:TerminalRequest>: Encodable {
         case reversalRequest
     }
     
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container: KeyedEncodingContainer<SaleToPOIRequest<T>.CodingKeys> = encoder.container(keyedBy: SaleToPOIRequest<T>.CodingKeys.self)
         try container.encode(self.messageHeader, forKey: SaleToPOIRequest<T>.CodingKeys.messageHeader)
         try container.encode(self.request, forKey: self.requestCodingKey)

@@ -19,7 +19,7 @@ public struct SaleToPOIResponse<R:TerminalResponse>: Decodable {
         case reversalResponse
     }
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         let allKeys = Set(values.allKeys)

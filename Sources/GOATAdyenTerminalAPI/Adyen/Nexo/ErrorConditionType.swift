@@ -7,7 +7,7 @@
 
 import Foundation
 
-public public enum ErrorConditionType: String, Codable {
+public enum ErrorConditionType: String, Codable {
     case aborted = "Aborted"
     case busy = "Busy"
     case cancel = "Cancel"
