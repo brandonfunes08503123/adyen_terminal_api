@@ -8,12 +8,12 @@
 import Foundation
 
 public struct MessageHeader: Codable {
-    let protocolVersion: String?
-    let messageClass: MessageClass
-    let messageCategory: MessageCategory
-    let messageType: MessageType
-    let serviceID: String?
-    let deviceID: String?
-    let saleID: String
-    let pOIID: String
+    public let protocolVersion: String?
+    public let messageClass: MessageClass
+    public let messageCategory: MessageCategory
+    public let messageType: MessageType
+    public let serviceID: String?
+    public let deviceID: String?
+    public let saleID: String
+    public let pOIID: String
 }

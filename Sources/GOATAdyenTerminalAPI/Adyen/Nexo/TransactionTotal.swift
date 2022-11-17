@@ -8,8 +8,8 @@
 import Foundation
 
 public struct TransactionTotal: Decodable {
-    let saleID: String
-    let paymentInstrumentType: PaymentInstrumentType
-    let paymentCurrency: String
-    let paymentTotals: [PaymentTotal]
+    public let saleID: String
+    public let paymentInstrumentType: PaymentInstrumentType
+    public let paymentCurrency: String
+    public let paymentTotals: [PaymentTotal]
 }

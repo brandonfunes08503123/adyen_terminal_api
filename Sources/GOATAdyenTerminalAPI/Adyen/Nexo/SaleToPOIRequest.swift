@@ -8,8 +8,8 @@
 import Foundation
 
 public struct SaleToPOIRequest<T:TerminalRequest>: Encodable {
-    let messageHeader: MessageHeader
-    let request: T
+    public let messageHeader: MessageHeader
+    public let request: T
     
     enum CodingKeys: CodingKey {
         case messageHeader

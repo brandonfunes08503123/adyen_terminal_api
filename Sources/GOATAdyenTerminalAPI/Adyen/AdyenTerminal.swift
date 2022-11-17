@@ -9,11 +9,11 @@ import Foundation
 
 /// A representation of the hardware payment device. It allows to perform all the actions we need from the device: payments, refunds, etc.
 public struct AdyenTerminal {
-    let ip: String
-    let name: String
-    let location: String
-    let number: Int
-    let poiId: String
+    public let ip: String
+    public let name: String
+    public let location: String
+    public let number: Int
+    public let poiId: String
 
     /// Perform a payment request on the hardware terminal.
     ///

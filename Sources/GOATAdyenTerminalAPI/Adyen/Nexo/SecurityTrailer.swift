@@ -8,9 +8,9 @@
 import Foundation
 
 public struct SecurityTrailer: Codable {
-    let adyenCryptoVersion: Int
-    let keyIdentifier: String
-    let keyVersion: Int
-    let nonce: String
-    let hmac: String
+    public let adyenCryptoVersion: Int
+    public let keyIdentifier: String
+    public let keyVersion: Int
+    public let nonce: String
+    public let hmac: String
 }

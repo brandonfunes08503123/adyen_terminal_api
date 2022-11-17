@@ -8,8 +8,8 @@
 import Foundation
 
 public class PaymentRequest: TerminalRequest {
-    let saleData: SaleData
-    let paymentTransaction: PaymentTransaction
+    public let saleData: SaleData
+    public let paymentTransaction: PaymentTransaction
     
     enum CodingKeys: String, CodingKey {
         case saleData

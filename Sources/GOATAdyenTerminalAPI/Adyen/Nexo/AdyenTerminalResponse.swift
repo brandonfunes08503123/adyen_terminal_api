@@ -8,5 +8,5 @@
 import Foundation
 
 public struct AdyenTerminalResponse<R:TerminalResponse>: Decodable {
-    let saleToPOIResponse: SaleToPOIResponse<R>
+    public let saleToPOIResponse: SaleToPOIResponse<R>
 }

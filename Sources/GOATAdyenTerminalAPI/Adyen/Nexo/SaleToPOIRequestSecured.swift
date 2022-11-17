@@ -8,5 +8,5 @@
 import Foundation
 
 public struct SaleToPOIRequestSecured: Encodable {
-    let saleToPOIRequest: SaleToPOIMessageSecured
+    public let saleToPOIRequest: SaleToPOIMessageSecured
 }

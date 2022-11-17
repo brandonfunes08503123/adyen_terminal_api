@@ -8,6 +8,6 @@
 import Foundation
 
 public struct TransactionIDType: Codable, Equatable, Hashable {
-    let transactionID: String
-    let timeStamp: Date
+    public let transactionID: String
+    public let timeStamp: Date
 }

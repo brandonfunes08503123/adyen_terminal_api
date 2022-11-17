@@ -8,8 +8,8 @@
 import Foundation
 
 public struct SaleToPOIResponse<R:TerminalResponse>: Decodable {
-    let messageHeader: MessageHeader
-    let response: R
+    public let messageHeader: MessageHeader
+    public let response: R
     
     enum CodingKeys: CodingKey {
         case messageHeader

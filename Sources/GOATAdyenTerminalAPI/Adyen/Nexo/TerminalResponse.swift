@@ -8,8 +8,8 @@
 import Foundation
 
 public class TerminalResponse: Decodable {
-    let response: Response
-    let pOIData: POIData?
+    public let response: Response
+    public let pOIData: POIData?
 
     init(response: Response, pOIData: POIData) {
         self.response = response

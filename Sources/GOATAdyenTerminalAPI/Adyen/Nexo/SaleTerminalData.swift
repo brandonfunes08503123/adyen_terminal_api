@@ -8,5 +8,5 @@
 import Foundation
 
 public struct SaleTerminalData: Encodable {
-    let totalsGroupID: String
+    public let totalsGroupID: String
 }

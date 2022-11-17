@@ -8,7 +8,7 @@
 import Foundation
 
 public struct PaymentTotal: Decodable {
-    let transactionType: TransactionType
-    let transactionCount: Int
-    let transactionAmount: Float
+    public let transactionType: TransactionType
+    public let transactionCount: Int
+    public let transactionAmount: Float
 }

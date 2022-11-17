@@ -8,6 +8,6 @@
 import Foundation
 
 public struct PaymentResult: Decodable {
-    let amountsResp: SimpleAmount?
-    let paymentInstrumentData: PaymentInstrumentData?
+    public let amountsResp: SimpleAmount?
+    public let paymentInstrumentData: PaymentInstrumentData?
 }

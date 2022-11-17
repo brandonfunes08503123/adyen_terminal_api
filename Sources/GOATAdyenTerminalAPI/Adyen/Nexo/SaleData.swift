@@ -8,5 +8,5 @@
 import Foundation
 
 public struct SaleData: Codable {
-    let saleTransactionID: TransactionIDType
+    public let saleTransactionID: TransactionIDType
 }

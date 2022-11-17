@@ -8,6 +8,6 @@
 import Foundation
 
 public struct SimpleAmount: Decodable {
-    let authorizedAmount: Float
-    let currency: String
+    public let authorizedAmount: Float
+    public let currency: String
 }

@@ -8,6 +8,6 @@
 import Foundation
 
 public struct POIData: Codable {
-    let pOITransactionID: TransactionIDType
-    let pOIReconciliationID: String?
+    public let pOITransactionID: TransactionIDType
+    public let pOIReconciliationID: String?
 }

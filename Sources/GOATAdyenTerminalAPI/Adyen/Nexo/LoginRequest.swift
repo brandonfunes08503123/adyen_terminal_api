@@ -8,11 +8,11 @@
 import Foundation
 
 public class LoginRequest: TerminalRequest {
-    let dateTime: Date
-    let saleSoftware: SaleSoftware
-    let saleTerminalData: SaleTerminalData
-    let operatorLanguage: OperatorLanguage
-    let operatorID: String
+    public let dateTime: Date
+    public let saleSoftware: SaleSoftware
+    public let saleTerminalData: SaleTerminalData
+    public let operatorLanguage: OperatorLanguage
+    public let operatorID: String
 
     enum CodingKeys: String, CodingKey {
         case dateTime

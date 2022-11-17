@@ -8,5 +8,5 @@
 import Foundation
 
 public struct PaymentTransaction: Codable {
-    let amountsReq: AmountsReq
+    public let amountsReq: AmountsReq
 }

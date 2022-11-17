@@ -8,5 +8,5 @@
 import Foundation
 
 public struct PaymentInstrumentData: Decodable {
-    let cardData: CardData
+    public let cardData: CardData
 }

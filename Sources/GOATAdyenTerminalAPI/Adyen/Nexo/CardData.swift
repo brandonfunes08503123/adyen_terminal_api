@@ -8,7 +8,7 @@
 import Foundation
 
 public struct CardData: Decodable {
-    let maskedPan: String?
-    let paymentBrand: String?
-    let cardCountryCode: String?
+    public let maskedPan: String?
+    public let paymentBrand: String?
+    public let cardCountryCode: String?
 }

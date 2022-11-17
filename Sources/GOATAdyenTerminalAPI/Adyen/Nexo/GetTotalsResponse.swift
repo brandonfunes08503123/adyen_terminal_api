@@ -8,8 +8,8 @@
 import Foundation
 
 public class GetTotalsResponse: TerminalResponse {
-    let pOIReconciliationID: String
-    let transactionTotals: [TransactionTotal]
+    public let pOIReconciliationID: String
+    public let transactionTotals: [TransactionTotal]
 
     enum CodingKeys: CodingKey {
         case pOIReconciliationID

@@ -8,7 +8,7 @@
 import Foundation
 
 public class ReversalResponse: TerminalResponse {
-    let reversedAmount: SimpleAmount
+    public let reversedAmount: SimpleAmount
 
     enum CodingKeys: CodingKey {
         case reversedAmount

@@ -8,8 +8,8 @@
 import Foundation
 
 public class ReversalRequest: TerminalRequest {
-    let originalPOITransaction: OriginalPOITransaction
-    let reversalReason: ReversalReason
+    public let originalPOITransaction: OriginalPOITransaction
+    public let reversalReason: ReversalReason
     
     enum CodingKeys: String, CodingKey {
         case originalPOITransaction

@@ -8,5 +8,5 @@
 import Foundation
 
 public struct OriginalPOITransaction: Encodable {
-    let pOITransactionID: TransactionIDType
+    public let pOITransactionID: TransactionIDType
 }

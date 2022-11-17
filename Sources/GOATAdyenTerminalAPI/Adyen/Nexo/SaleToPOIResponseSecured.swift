@@ -8,5 +8,5 @@
 import Foundation
 
 public struct SaleToPOIResponseSecured: Decodable {
-    let saleToPOIResponse: SaleToPOIMessageSecured
+    public let saleToPOIResponse: SaleToPOIMessageSecured
 }

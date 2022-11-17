@@ -8,7 +8,7 @@
 import Foundation
 
 public struct SaleToPOIMessageSecured: Codable {
-    let messageHeader: MessageHeader
-    let nexoBlob: String
-    let securityTrailer: SecurityTrailer
+    public let messageHeader: MessageHeader
+    public let nexoBlob: String
+    public let securityTrailer: SecurityTrailer
 }

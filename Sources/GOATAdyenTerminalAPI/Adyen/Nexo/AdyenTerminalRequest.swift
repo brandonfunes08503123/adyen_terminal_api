@@ -8,5 +8,5 @@
 import Foundation
 
 public struct AdyenTerminalRequest<T:TerminalRequest>: Encodable {
-    let saleToPOIRequest: SaleToPOIRequest<T>
+    public let saleToPOIRequest: SaleToPOIRequest<T>
 }
