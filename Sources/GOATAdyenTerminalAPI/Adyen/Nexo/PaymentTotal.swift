@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PaymentTotal: Decodable {
+public struct PaymentTotal: Decodable {
     let transactionType: TransactionType
     let transactionCount: Int
     let transactionAmount: Float

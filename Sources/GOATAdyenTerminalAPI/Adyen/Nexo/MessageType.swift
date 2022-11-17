@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum MessageType: String, Codable {
+public enum MessageType: String, Codable {
     case request = "Request"
     case response = "Response"
 }

@@ -7,7 +7,6 @@
 
 import Foundation
 
-struct AdyenTerminalRequest<T:TerminalRequest>: Encodable {
+public struct AdyenTerminalRequest<T:TerminalRequest>: Encodable {
     let saleToPOIRequest: SaleToPOIRequest<T>
 }
-

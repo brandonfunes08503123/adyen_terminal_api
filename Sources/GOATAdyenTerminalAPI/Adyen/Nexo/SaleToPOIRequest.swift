@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SaleToPOIRequest<T:TerminalRequest>: Encodable {
+public struct SaleToPOIRequest<T:TerminalRequest>: Encodable {
     let messageHeader: MessageHeader
     let request: T
     

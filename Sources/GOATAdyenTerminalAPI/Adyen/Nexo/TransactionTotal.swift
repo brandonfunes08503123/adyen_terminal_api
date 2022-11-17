@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TransactionTotal: Decodable {
+public struct TransactionTotal: Decodable {
     let saleID: String
     let paymentInstrumentType: PaymentInstrumentType
     let paymentCurrency: String

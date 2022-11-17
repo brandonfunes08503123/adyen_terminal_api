@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct PaymentInstrumentData: Decodable {
+public struct PaymentInstrumentData: Decodable {
     let cardData: CardData
 }

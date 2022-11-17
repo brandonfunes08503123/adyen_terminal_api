@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PaymentResult: Decodable {
+public struct PaymentResult: Decodable {
     let amountsResp: SimpleAmount?
     let paymentInstrumentData: PaymentInstrumentData?
 }

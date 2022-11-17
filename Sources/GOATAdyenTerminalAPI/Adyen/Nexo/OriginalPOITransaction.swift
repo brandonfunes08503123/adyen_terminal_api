@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct OriginalPOITransaction: Encodable {
+public struct OriginalPOITransaction: Encodable {
     let pOITransactionID: TransactionIDType
 }

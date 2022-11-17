@@ -7,6 +7,6 @@
 
 import Foundation
 
-enum OperatorLanguage: String, Codable {
+public enum OperatorLanguage: String, Codable {
     case english = "en"
 }

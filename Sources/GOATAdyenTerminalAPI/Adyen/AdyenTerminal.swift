@@ -8,7 +8,7 @@
 import Foundation
 
 /// A representation of the hardware payment device. It allows to perform all the actions we need from the device: payments, refunds, etc.
-struct AdyenTerminal {
+public struct AdyenTerminal {
     let ip: String
     let name: String
     let location: String
@@ -23,7 +23,7 @@ struct AdyenTerminal {
     ///
     /// - Returns: The result of the payment
     ///
-    func pay(transactionID: String, currency: String, amountCents: Int) async throws -> PaymentResponse {
+    public func pay(transactionID: String, currency: String, amountCents: Int) async throws -> PaymentResponse {
         let messageHeader = MessageHeader(protocolVersion: "3.0", messageClass: .service, messageCategory: .payment, messageType: .request, serviceID: UUID().description.suffix(10).description, deviceID: nil, saleID: "POS_\(location)_\(number)", pOIID: poiId)
         let saleData = SaleData(saleTransactionID: TransactionIDType(transactionID: transactionID, timeStamp: Date()))
         let paymentTransaction = PaymentTransaction(amountsReq: AmountsReq(currency: currency, requestedAmount: (Float(amountCents) / 100.0)))
@@ -46,7 +46,7 @@ struct AdyenTerminal {
         return terminalResponse.saleToPOIResponse.response
     }
     
-    func reversal(originalTransaction: TransactionIDType) async throws -> ReversalResponse {
+    public func reversal(originalTransaction: TransactionIDType) async throws -> ReversalResponse {
         let messageHeader = MessageHeader(protocolVersion: "3.0", messageClass: .service, messageCategory: .reversal, messageType: .request, serviceID: UUID().description.suffix(10).description, deviceID: nil, saleID: "POS_\(location)_\(number)", pOIID: poiId)
 
         let reversalRequest = ReversalRequest(originalPOITransaction: OriginalPOITransaction(pOITransactionID: originalTransaction), reversalReason: .merchantCancel)
@@ -68,7 +68,7 @@ struct AdyenTerminal {
         return terminalResponse.saleToPOIResponse.response
     }
 
-    func login() async throws {
+    public func login() async throws {
         let messageHeader = MessageHeader(protocolVersion: "3.0", messageClass: .service, messageCategory: .login, messageType: .request, serviceID: UUID().description.suffix(10).description, deviceID: nil, saleID: "POS_\(location)_\(number)", pOIID: poiId)
 
         let saleSoftware = SaleSoftware(manufacturerID: .goatgroup, applicationName: "FC-POS", softwareVersion: "1.2", certificationCode: "")
@@ -91,7 +91,7 @@ struct AdyenTerminal {
         }
     }
 
-    func getTotals() async throws {
+    public func getTotals() async throws {
         let messageHeader = MessageHeader(protocolVersion: "3.0", messageClass: .service, messageCategory: .getTotals, messageType: .request, serviceID: UUID().description.suffix(10).description, deviceID: nil, saleID: "POS_\(location)_\(number)", pOIID: poiId)
 
         let getTotalsRequest = GetTotalsRequest()

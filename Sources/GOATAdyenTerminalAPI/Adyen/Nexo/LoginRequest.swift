@@ -7,7 +7,7 @@
 
 import Foundation
 
-class LoginRequest: TerminalRequest {
+public class LoginRequest: TerminalRequest {
     let dateTime: Date
     let saleSoftware: SaleSoftware
     let saleTerminalData: SaleTerminalData
@@ -30,7 +30,7 @@ class LoginRequest: TerminalRequest {
         self.operatorID = operatorID
     }
     
-    override func encode(to encoder: Encoder) throws {
+    override public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(dateTime, forKey: .dateTime)
         try container.encode(saleSoftware, forKey: .saleSoftware)

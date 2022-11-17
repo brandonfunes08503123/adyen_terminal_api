@@ -10,7 +10,7 @@ import Foundation
 ///
 /// https://docs.adyen.com/point-of-sale/terminal-api/terminal-api-reference#comadyennexoamountsreq
 ///
-struct AmountsReq: Codable {
+public struct AmountsReq: Codable {
     let currency: String
     let requestedAmount: Float
 }

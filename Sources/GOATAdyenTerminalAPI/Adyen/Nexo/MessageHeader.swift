@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MessageHeader: Codable {
+public struct MessageHeader: Codable {
     let protocolVersion: String?
     let messageClass: MessageClass
     let messageCategory: MessageCategory

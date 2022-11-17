@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct SaleData: Codable {
+public struct SaleData: Codable {
     let saleTransactionID: TransactionIDType
 }

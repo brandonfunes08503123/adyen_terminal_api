@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct PaymentTransaction: Codable {
+public struct PaymentTransaction: Codable {
     let amountsReq: AmountsReq
 }

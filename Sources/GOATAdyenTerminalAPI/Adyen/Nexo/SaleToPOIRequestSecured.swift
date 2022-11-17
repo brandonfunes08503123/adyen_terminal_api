@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct SaleToPOIRequestSecured: Encodable {
+public struct SaleToPOIRequestSecured: Encodable {
     let saleToPOIRequest: SaleToPOIMessageSecured
 }

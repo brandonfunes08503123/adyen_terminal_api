@@ -7,5 +7,5 @@
 
 import Foundation
 
-class TerminalRequest: Encodable {
+public class TerminalRequest: Encodable {
 }

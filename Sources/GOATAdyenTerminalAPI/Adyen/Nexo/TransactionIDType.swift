@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TransactionIDType: Codable, Equatable, Hashable {
+public struct TransactionIDType: Codable, Equatable, Hashable {
     let transactionID: String
     let timeStamp: Date
 }

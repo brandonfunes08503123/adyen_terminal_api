@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SimpleAmount: Decodable {
+public struct SimpleAmount: Decodable {
     let authorizedAmount: Float
     let currency: String
 }

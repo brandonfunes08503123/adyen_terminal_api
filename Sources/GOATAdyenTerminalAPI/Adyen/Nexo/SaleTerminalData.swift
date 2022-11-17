@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct SaleTerminalData: Encodable {
+public struct SaleTerminalData: Encodable {
     let totalsGroupID: String
 }

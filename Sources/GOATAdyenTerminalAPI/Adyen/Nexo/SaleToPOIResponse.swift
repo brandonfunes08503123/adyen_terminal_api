@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SaleToPOIResponse<R:TerminalResponse>: Decodable {
+public struct SaleToPOIResponse<R:TerminalResponse>: Decodable {
     let messageHeader: MessageHeader
     let response: R
     

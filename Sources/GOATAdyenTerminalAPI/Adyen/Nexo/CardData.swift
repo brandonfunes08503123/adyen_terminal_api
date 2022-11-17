@@ -7,9 +7,8 @@
 
 import Foundation
 
-struct CardData: Decodable {
+public struct CardData: Decodable {
     let maskedPan: String?
     let paymentBrand: String?
     let cardCountryCode: String?
-
 }

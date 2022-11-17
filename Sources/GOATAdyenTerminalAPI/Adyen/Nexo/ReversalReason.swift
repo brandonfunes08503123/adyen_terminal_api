@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ReversalReason: String, Encodable {
+public enum ReversalReason: String, Encodable {
     case customerCancel = "CustCancel"
     case merchantCancel = "MerchantCancel"
     case malfunction = "Malfunction"

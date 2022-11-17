@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ReversalRequest: TerminalRequest {
+public class ReversalRequest: TerminalRequest {
     let originalPOITransaction: OriginalPOITransaction
     let reversalReason: ReversalReason
     

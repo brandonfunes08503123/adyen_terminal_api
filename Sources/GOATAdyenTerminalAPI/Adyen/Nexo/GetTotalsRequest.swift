@@ -7,6 +7,6 @@
 
 import Foundation
 
-class GetTotalsRequest: TerminalRequest {
+public class GetTotalsRequest: TerminalRequest {
     
 }

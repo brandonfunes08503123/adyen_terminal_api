@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SaleSoftware: Encodable {
+public struct SaleSoftware: Encodable {
     let manufacturerID: ManufacturerID
     let applicationName: String
     let softwareVersion: String

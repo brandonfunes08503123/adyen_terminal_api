@@ -7,6 +7,6 @@
 
 import Foundation
 
-enum ManufacturerID: String, Codable {
+public enum ManufacturerID: String, Codable {
     case goatgroup = "GOATGROUP"
 }

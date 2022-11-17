@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct POIData: Codable {
+public struct POIData: Codable {
     let pOITransactionID: TransactionIDType
     let pOIReconciliationID: String?
 }

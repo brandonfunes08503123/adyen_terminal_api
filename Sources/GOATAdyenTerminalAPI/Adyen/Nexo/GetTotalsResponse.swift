@@ -7,7 +7,7 @@
 
 import Foundation
 
-class GetTotalsResponse: TerminalResponse {
+public class GetTotalsResponse: TerminalResponse {
     let pOIReconciliationID: String
     let transactionTotals: [TransactionTotal]
 

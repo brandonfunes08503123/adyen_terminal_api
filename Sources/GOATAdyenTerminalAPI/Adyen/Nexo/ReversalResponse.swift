@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ReversalResponse: TerminalResponse {
+public class ReversalResponse: TerminalResponse {
     let reversedAmount: SimpleAmount
 
     enum CodingKeys: CodingKey {

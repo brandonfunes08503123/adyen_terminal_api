@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SecurityTrailer: Codable {
+public struct SecurityTrailer: Codable {
     let adyenCryptoVersion: Int
     let keyIdentifier: String
     let keyVersion: Int

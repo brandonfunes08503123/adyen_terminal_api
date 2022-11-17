@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum MessageCategory: String, Codable {
+public enum MessageCategory: String, Codable {
     case payment = "Payment"
     case getTotals = "GetTotals"
     case login = "Login"

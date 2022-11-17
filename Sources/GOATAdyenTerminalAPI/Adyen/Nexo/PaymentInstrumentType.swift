@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum PaymentInstrumentType: String, Decodable {
+public enum PaymentInstrumentType: String, Decodable {
     case card = "Card"
     case check = "Check"
     case mobile = "Mobile"

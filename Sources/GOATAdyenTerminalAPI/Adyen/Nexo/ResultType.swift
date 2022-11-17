@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ResultType: String, Codable {
+public enum ResultType: String, Codable {
     case success = "Success"
     case failure = "Failure"
     case partial = "Partial"

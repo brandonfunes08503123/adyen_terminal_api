@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Response: Codable {
+public struct Response: Codable {
     public var additionalResponse: String?
     public var result: ResultType
     public var errorCondition: ErrorConditionType?

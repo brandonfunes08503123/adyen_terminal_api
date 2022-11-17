@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum MessageClass: String, Codable {
+public enum MessageClass: String, Codable {
     case service = "Service"
     case device = "Device"
     case event = "Event"

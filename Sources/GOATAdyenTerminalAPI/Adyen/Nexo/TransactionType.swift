@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum TransactionType: String, Decodable {
+public enum TransactionType: String, Decodable {
     case debit = "Debit"
     case credit = "Credit"
     case reverseDebit = "ReverseDebit"

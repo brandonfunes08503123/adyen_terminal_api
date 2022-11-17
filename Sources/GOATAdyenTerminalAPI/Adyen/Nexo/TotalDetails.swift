@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct TotalDetails: Encodable {
+public struct TotalDetails: Encodable {
     
 }

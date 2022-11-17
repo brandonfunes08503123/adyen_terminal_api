@@ -7,7 +7,7 @@
 
 import Foundation
 
-class PaymentRequest: TerminalRequest {
+public class PaymentRequest: TerminalRequest {
     let saleData: SaleData
     let paymentTransaction: PaymentTransaction
     

@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct TotalFilter: Encodable {
+public struct TotalFilter: Encodable {
     
 }

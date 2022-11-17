@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct SaleToPOIResponseSecured: Decodable {
+public struct SaleToPOIResponseSecured: Decodable {
     let saleToPOIResponse: SaleToPOIMessageSecured
 }

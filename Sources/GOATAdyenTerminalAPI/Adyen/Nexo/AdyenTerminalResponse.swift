@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct AdyenTerminalResponse<R:TerminalResponse>: Decodable {
+public struct AdyenTerminalResponse<R:TerminalResponse>: Decodable {
     let saleToPOIResponse: SaleToPOIResponse<R>
 }

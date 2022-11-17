@@ -7,6 +7,6 @@
 
 import Foundation
 
-class LoginResponse: TerminalResponse {
+public class LoginResponse: TerminalResponse {
     
 }

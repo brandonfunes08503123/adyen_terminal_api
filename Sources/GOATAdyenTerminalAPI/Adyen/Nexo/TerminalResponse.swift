@@ -7,7 +7,7 @@
 
 import Foundation
 
-class TerminalResponse: Decodable {
+public class TerminalResponse: Decodable {
     let response: Response
     let pOIData: POIData?
 
@@ -21,7 +21,7 @@ class TerminalResponse: Decodable {
         case pOIData
     }
 
-    required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.response = try container.decode(Response.self, forKey: .response)
         self.pOIData = try container.decodeIfPresent(POIData.self, forKey: .pOIData)
