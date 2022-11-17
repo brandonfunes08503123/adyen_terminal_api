@@ -14,6 +14,14 @@ public struct AdyenTerminal {
     public let location: String
     public let number: Int
     public let poiId: String
+    
+    public init(ip: String, name: String, location: String, number: Int, poiId: String) {
+        self.ip = ip
+        self.name = name
+        self.location = location
+        self.number = number
+        self.poiId = poiId
+    }
 
     /// Perform a payment request on the hardware terminal.
     ///
