@@ -95,7 +95,9 @@ extension AdyenTerminalAPI: URLSessionDelegate {
                     print(error?.localizedDescription ?? "")
                 }
 
-                if(isServerTrusted) {
+                if isServerTrusted {
+                    return (URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust:serverTrust))
+                } else {
                     if let serverCertificates = SecTrustCopyCertificateChain(serverTrust) as? Array<SecCertificate> {
                         for serverCertificate in serverCertificates {
                             let serverCertificateData = SecCertificateCopyData(serverCertificate)
