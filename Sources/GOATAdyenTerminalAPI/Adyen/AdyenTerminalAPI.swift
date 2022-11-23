@@ -104,7 +104,7 @@ extension AdyenTerminalAPI: URLSessionDelegate {
                             let data = CFDataGetBytePtr(serverCertificateData);
                             let size = CFDataGetLength(serverCertificateData);
                             let cert1 = NSData(bytes: data, length: size)
-                            let file_der = Bundle.main.path(forResource: "adyen-terminalfleet-test", ofType: "pem")
+                            let file_der = Bundle.main.path(forResource: "adyen-terminalfleet-test", ofType: "cer")
                             
                             if let file = file_der {
                                 if let cert2 = NSData(contentsOfFile: file) {
