@@ -98,20 +98,27 @@ extension AdyenTerminalAPI: URLSessionDelegate {
                 if isServerTrusted {
                     return (URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust:serverTrust))
                 } else {
+                    let certificateFile = Bundle.main.path(forResource: "adyen-terminalfleet-test", ofType: "cer")
+                    guard let certificateFile = certificateFile, let certificateData = NSData(contentsOfFile: certificateFile) as? Data else {
+                        return (URLSession.AuthChallengeDisposition.cancelAuthenticationChallenge, nil)
+                    }
+
                     if let serverCertificates = SecTrustCopyCertificateChain(serverTrust) as? Array<SecCertificate> {
                         for serverCertificate in serverCertificates {
                             let serverCertificateData = SecCertificateCopyData(serverCertificate)
                             let data = CFDataGetBytePtr(serverCertificateData);
                             let size = CFDataGetLength(serverCertificateData);
                             let cert1 = NSData(bytes: data, length: size)
-                            let file_der = Bundle.main.path(forResource: "adyen-terminalfleet-test", ofType: "cer")
-                            
-                            if let file = file_der {
-                                if let cert2 = NSData(contentsOfFile: file) {
-                                    if cert1.isEqual(to: cert2 as Data) {
-                                        return (URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust:serverTrust))
-                                    }
-                                }
+
+                            var cfName: CFString?
+                            SecCertificateCopyCommonName(serverCertificate, &cfName)
+                            print(">>> CERTIFICATE: \(cfName.debugDescription)")
+
+                            if cert1.isEqual(to: certificateData) {
+                                print("CERTIFICATE IS VALID")
+                                return (URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust:serverTrust))
+                            } else {
+                                print("CERTIFICATE IS NOT VALID")
                             }
                         }
                     }
