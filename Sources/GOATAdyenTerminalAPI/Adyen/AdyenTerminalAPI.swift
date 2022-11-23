@@ -88,7 +88,12 @@ extension AdyenTerminalAPI: URLSessionDelegate {
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge) async -> (URLSession.AuthChallengeDisposition, URLCredential?) {
         if (challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust) {
             if let serverTrust = challenge.protectionSpace.serverTrust {
-                let isServerTrusted = SecTrustEvaluateWithError(serverTrust, nil)
+                var error: CFError?
+                let isServerTrusted = SecTrustEvaluateWithError(serverTrust, &error)
+                
+                if error != nil {
+                    print(error?.localizedDescription ?? "")
+                }
 
                 if(isServerTrusted) {
                     if let serverCertificates = SecTrustCopyCertificateChain(serverTrust) as? Array<SecCertificate> {
