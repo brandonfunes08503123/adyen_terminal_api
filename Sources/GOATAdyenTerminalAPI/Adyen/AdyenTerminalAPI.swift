@@ -71,12 +71,48 @@ class AdyenTerminalAPI: NSObject {
         
         print(">>> request!")
         print(">>> body: \(String(data: encodedSaleToPOIRequestSecuredData, encoding: .utf8)!)")
-        let urlSession = URLSession(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: .main)
+        let urlSession = URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: .main)
         let (data, response) = try await urlSession.data(for: urlRequest)
         if let rs = response as? HTTPURLResponse {
             print(">>> response! [\(rs.statusCode)]")
         }
         return data
         
+    }
+}
+
+///
+/// https://stackoverflow.com/questions/34223291/ios-certificate-pinning-with-swift-and-nsurlsession
+///
+extension AdyenTerminalAPI: URLSessionDelegate {
+    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge) async -> (URLSession.AuthChallengeDisposition, URLCredential?) {
+        if (challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust) {
+            if let serverTrust = challenge.protectionSpace.serverTrust {
+                let isServerTrusted = SecTrustEvaluateWithError(serverTrust, nil)
+
+                if(isServerTrusted) {
+                    if let serverCertificates = SecTrustCopyCertificateChain(serverTrust) as? Array<SecCertificate> {
+                        for serverCertificate in serverCertificates {
+                            let serverCertificateData = SecCertificateCopyData(serverCertificate)
+                            let data = CFDataGetBytePtr(serverCertificateData);
+                            let size = CFDataGetLength(serverCertificateData);
+                            let cert1 = NSData(bytes: data, length: size)
+                            let file_der = Bundle.main.path(forResource: "adyen-terminalfleet-test", ofType: "pem")
+                            
+                            if let file = file_der {
+                                if let cert2 = NSData(contentsOfFile: file) {
+                                    if cert1.isEqual(to: cert2 as Data) {
+                                        return (URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust:serverTrust))
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Pinning failed
+        return (URLSession.AuthChallengeDisposition.cancelAuthenticationChallenge, nil)
     }
 }
