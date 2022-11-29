@@ -8,20 +8,24 @@
 import Foundation
 
 public class ReversalResponse: TerminalResponse {
-    public let reversedAmount: SimpleAmount
+    public let reversedAmount: SimpleAmount?
+    public let paymentReceipt: [PaymentReceipt]
 
     enum CodingKeys: CodingKey {
         case reversedAmount
+        case paymentReceipt
     }
 
-    init(response: Response, reversedAmount: SimpleAmount, pOIData: POIData) {
+    init(response: Response, reversedAmount: SimpleAmount, paymentReceipt: [PaymentReceipt], pOIData: POIData) {
         self.reversedAmount = reversedAmount
+        self.paymentReceipt = paymentReceipt
         super.init(response: response, pOIData: pOIData)
     }
-    
+
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        reversedAmount = try values.decode(SimpleAmount.self, forKey: .reversedAmount)
+        reversedAmount = try values.decodeIfPresent(SimpleAmount.self, forKey: .reversedAmount)
+        paymentReceipt = try values.decode(Array<PaymentReceipt>.self, forKey: .paymentReceipt)
         try super.init(from: decoder)
     }
 }
