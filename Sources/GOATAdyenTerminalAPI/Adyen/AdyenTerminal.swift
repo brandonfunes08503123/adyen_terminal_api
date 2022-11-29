@@ -14,13 +14,15 @@ public struct AdyenTerminal {
     public let location: String
     public let number: Int
     public let poiId: String
-    
-    public init(ip: String, name: String, location: String, number: Int, poiId: String) {
+    public let encryptionCredentialDetails: EncryptionCredentialDetails
+
+    public init(ip: String, name: String, location: String, number: Int, poiId: String, encryptionCredentialDetails: EncryptionCredentialDetails) {
         self.ip = ip
         self.name = name
         self.location = location
         self.number = number
         self.poiId = poiId
+        self.encryptionCredentialDetails = encryptionCredentialDetails
     }
 
     /// Perform a payment request on the hardware terminal.

@@ -30,7 +30,7 @@ class AdyenTerminalAPI: NSObject {
 
     func perform<T:TerminalRequest, R:TerminalResponse>(request: AdyenTerminalRequest<T>) async throws -> AdyenTerminalResponse<R> {
         let encryptor = SaleToPOIMessageSecuredEncryptor()
-        let credentials = EncryptionCredentialDetails(password: "secret1pass", keyVersion: 1, keyIdentifier: "key_id_1", adyenCryptoVersion: 1)
+        let credentials = terminal.encryptionCredentialDetails
 
         let data = try encoder.encode(request)
         guard let text = String(data: data, encoding: .ascii) else {
@@ -98,7 +98,7 @@ extension AdyenTerminalAPI: URLSessionDelegate {
                 if isServerTrusted {
                     return (URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust:serverTrust))
                 } else {
-                    let certificateFile = Bundle.main.path(forResource: "adyen-terminalfleet-test", ofType: "cer")
+                    let certificateFile = Bundle.main.path(forResource: "adyen-terminalfleet-test", ofType: "crt")
                     guard let certificateFile = certificateFile, let certificateData = NSData(contentsOfFile: certificateFile) as? Data else {
                         return (URLSession.AuthChallengeDisposition.cancelAuthenticationChallenge, nil)
                     }

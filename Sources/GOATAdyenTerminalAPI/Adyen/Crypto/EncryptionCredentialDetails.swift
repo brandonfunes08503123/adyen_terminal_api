@@ -7,9 +7,16 @@
 
 import Foundation
 
-struct EncryptionCredentialDetails {
-    let password: String
-    let keyVersion: Int
-    let keyIdentifier: String
-    let adyenCryptoVersion: Int
+public struct EncryptionCredentialDetails {
+    public let password: String
+    public let keyVersion: Int
+    public let keyIdentifier: String
+    public let adyenCryptoVersion: Int
+    
+    public init(password: String, keyVersion: Int, keyIdentifier: String, adyenCryptoVersion: Int) {
+        self.password = password
+        self.keyVersion = keyVersion
+        self.keyIdentifier = keyIdentifier
+        self.adyenCryptoVersion = adyenCryptoVersion
+    }
 }
