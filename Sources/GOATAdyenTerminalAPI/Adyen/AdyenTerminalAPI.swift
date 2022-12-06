@@ -10,7 +10,7 @@ import Security
 import Logging
 
 class AdyenTerminalAPI: NSObject {
-    let logger = Logger()
+    let logger = Logger(label: "adyen_logger")
     let terminal: AdyenTerminal
     let encoder = JSONEncoder()
     let decoder = JSONDecoder()
