@@ -7,8 +7,10 @@
 
 import Foundation
 import Security
+import OSLog
 
 class AdyenTerminalAPI: NSObject {
+    let logger = Logger()
     let terminal: AdyenTerminal
     let encoder = JSONEncoder()
     let decoder = JSONDecoder()
@@ -37,22 +39,22 @@ class AdyenTerminalAPI: NSObject {
             throw AdyenTerminalAPIError.unknown(error: "Error while encoding the payment request")
         }
 
-        print(">>>> REQUEST: \(text)")
+        logger.info("ADYEN DECODED REQUEST: \(text)")
 
         let saleToPOIRequest = try encryptor.encrypt(saleToPOIMessage: text, messageHeader: request.saleToPOIRequest.messageHeader, encryptionCredentialDetails: credentials)
         
         let SaleToPOIRequestSecured = SaleToPOIRequestSecured(saleToPOIRequest: saleToPOIRequest)
         let encodedSaleToPOIRequestSecuredData = try encoder.encode(SaleToPOIRequestSecured)
 
-//        if let logline = String(data: responseData, encoding: .utf8) {
-//            print(">>>> RAW RESPONSE: \(logline)")
-//        }
+        if let logline = String(data: encodedSaleToPOIRequestSecuredData, encoding: .utf8) {
+            logger.info("ADYEN ENCODED RESPONSE: \(logline)")
+        }
 
         do {
             let responseData = try await self.performRequest(encodedSaleToPOIRequestSecuredData: encodedSaleToPOIRequestSecuredData)
             let securedResponse = try decoder.decode(SaleToPOIResponseSecured.self, from: responseData)
             let response = try encryptor.descrypt(saleToPOIMessageSecured: securedResponse.saleToPOIResponse, encryptionCredentialDetails: credentials)
-            print(">>>> Response: \(String(data: response, encoding: .utf8)!)")
+            logger.info("ADYEN DECODED RESPONSE: \(String(data: response, encoding: .utf8)!)")
             return try decoder.decode(AdyenTerminalResponse.self, from: response)
         } catch {
             if let error = error as? URLError, error.code == .serverCertificateUntrusted {
@@ -69,12 +71,11 @@ class AdyenTerminalAPI: NSObject {
         urlRequest.httpMethod = "POST"
         urlRequest.httpBody = encodedSaleToPOIRequestSecuredData
         
-        print(">>> request!")
-        print(">>> body: \(String(data: encodedSaleToPOIRequestSecuredData, encoding: .utf8)!)")
+        logger.info("ADYEN REQUEST: \(String(data: encodedSaleToPOIRequestSecuredData, encoding: .utf8)!)")
         let urlSession = URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: .main)
         let (data, response) = try await urlSession.data(for: urlRequest)
         if let rs = response as? HTTPURLResponse {
-            print(">>> response! [\(rs.statusCode)]")
+            logger.info("ADYEN RESPONSE [\(rs.statusCode)]")
         }
         return data
         
@@ -92,7 +93,7 @@ extension AdyenTerminalAPI: URLSessionDelegate {
                 let isServerTrusted = SecTrustEvaluateWithError(serverTrust, &error)
                 
                 if error != nil {
-                    print(error?.localizedDescription ?? "")
+                    logger.info("ADYEN TERMINAL ERROR: \(error?.localizedDescription ?? "---")")
                 }
 
                 if isServerTrusted {
@@ -112,13 +113,12 @@ extension AdyenTerminalAPI: URLSessionDelegate {
 
                             var cfName: CFString?
                             SecCertificateCopyCommonName(serverCertificate, &cfName)
-                            print(">>> CERTIFICATE: \(cfName.debugDescription)")
 
                             if cert1.isEqual(to: certificateData) {
-                                print("CERTIFICATE IS VALID")
+                                logger.debug("CERTIFICATE \(cfName.debugDescription) IS VALID")
                                 return (URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust:serverTrust))
                             } else {
-                                print("CERTIFICATE IS NOT VALID")
+                                logger.debug("CERTIFICATE \(cfName.debugDescription) IS NOT VALID")
                             }
                         }
                     }
