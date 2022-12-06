@@ -18,16 +18,17 @@ class AdyenTerminalAPI: NSObject {
     init(terminal: AdyenTerminal) {
         self.terminal = terminal
 
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSS'Z'" //TODO: FIX THIS, we need either to send UTC time or proper timezon [jl]
+//        let formatter = DateFormatter()
+//        formatter.locale = Locale(identifier: "en_US_POSIX")
+//        formatter.dateFormat =
+//        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSS'Z'" //TODO: FIX THIS, we need either to send UTC time or proper timezon [jl]
 
         encoder.keyEncodingStrategy = .convertToPascalCase
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        encoder.dateEncodingStrategy = .formatted(formatter)
+        encoder.dateEncodingStrategy = .iso8601
         
         decoder.keyDecodingStrategy = .convertFromPascalCase
-        decoder.dateDecodingStrategy = .formatted(formatter)
+        decoder.dateDecodingStrategy = .iso8601
     }
 
     func perform<T:TerminalRequest, R:TerminalResponse>(request: AdyenTerminalRequest<T>) async throws -> AdyenTerminalResponse<R> {
