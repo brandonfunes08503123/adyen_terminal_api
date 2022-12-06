@@ -10,7 +10,7 @@ import Security
 import Logging
 
 class AdyenTerminalAPI: NSObject {
-    let logger = Logger(label: "adyen_logger")
+    let logger = Logger(label: "adyen_terminal_api")
     let terminal: AdyenTerminal
     let encoder = JSONEncoder()
     let decoder = JSONDecoder()
@@ -18,17 +18,16 @@ class AdyenTerminalAPI: NSObject {
     init(terminal: AdyenTerminal) {
         self.terminal = terminal
 
-//        let formatter = DateFormatter()
-//        formatter.locale = Locale(identifier: "en_US_POSIX")
-//        formatter.dateFormat =
-//        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSS'Z'" //TODO: FIX THIS, we need either to send UTC time or proper timezon [jl]
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSS'Z'"
 
         encoder.keyEncodingStrategy = .convertToPascalCase
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         encoder.dateEncodingStrategy = .iso8601
         
         decoder.keyDecodingStrategy = .convertFromPascalCase
-        decoder.dateDecodingStrategy = .iso8601
+        decoder.dateDecodingStrategy = .formatted(formatter)
     }
 
     func perform<T:TerminalRequest, R:TerminalResponse>(request: AdyenTerminalRequest<T>) async throws -> AdyenTerminalResponse<R> {
