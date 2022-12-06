@@ -7,7 +7,7 @@
 
 import Foundation
 import Security
-import OSLog
+import Logging
 
 class AdyenTerminalAPI: NSObject {
     let logger = Logger()
