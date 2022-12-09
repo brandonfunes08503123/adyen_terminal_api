@@ -74,11 +74,11 @@ class AdyenTerminalAPI: NSObject {
         logger.info("ADYEN REQUEST: \(String(data: encodedSaleToPOIRequestSecuredData, encoding: .utf8)!)")
         let urlSession = URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: .main)
         let (data, response) = try await urlSession.data(for: urlRequest)
-        if let rs = response as? HTTPURLResponse {
-            logger.info("ADYEN RESPONSE [\(rs.statusCode)]")
+        if let rs = response as? HTTPURLResponse, let responseText = String(data: data, encoding: .utf8) {
+            logger.info("ADYEN RESPONSE [\(rs.statusCode)]: \(responseText)")
         }
+
         return data
-        
     }
 }
 
@@ -105,6 +105,7 @@ extension AdyenTerminalAPI: URLSessionDelegate {
                     }
 
                     if let serverCertificates = SecTrustCopyCertificateChain(serverTrust) as? Array<SecCertificate> {
+                        logger.debug("Device certificates found: \(serverCertificates.count)")
                         for serverCertificate in serverCertificates {
                             let serverCertificateData = SecCertificateCopyData(serverCertificate)
                             let data = CFDataGetBytePtr(serverCertificateData);
@@ -121,6 +122,8 @@ extension AdyenTerminalAPI: URLSessionDelegate {
                                 logger.debug("CERTIFICATE \(cfName.debugDescription) IS NOT VALID")
                             }
                         }
+                        logger.info("Trust certificate NOT FOUND, accepting authentication challenge anyway :/")
+                        return (URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust:serverTrust))
                     }
                 }
             }
