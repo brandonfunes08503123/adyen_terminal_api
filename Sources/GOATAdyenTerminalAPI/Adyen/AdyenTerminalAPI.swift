@@ -93,7 +93,7 @@ extension AdyenTerminalAPI: URLSessionDelegate {
                 let isServerTrusted = SecTrustEvaluateWithError(serverTrust, &error)
                 
                 if error != nil {
-                    logger.info("ADYEN TERMINAL ERROR: \(error?.localizedDescription ?? "---")")
+                    logger.info("Warning, server is trusted: \(error?.localizedDescription ?? "---"). Will try to evaluate server trust using internal certificate.")
                 }
 
                 if isServerTrusted {
@@ -101,11 +101,12 @@ extension AdyenTerminalAPI: URLSessionDelegate {
                 } else {
                     let certificateFile = Bundle.main.path(forResource: "adyen-terminalfleet-test", ofType: "crt")
                     guard let certificateFile = certificateFile, let certificateData = NSData(contentsOfFile: certificateFile) as? Data else {
+                        logger.error("ERROR: 'adyen-terminalfleet-test.crt' file not found. Server trust is invalid!")
                         return (URLSession.AuthChallengeDisposition.cancelAuthenticationChallenge, nil)
                     }
 
                     if let serverCertificates = SecTrustCopyCertificateChain(serverTrust) as? Array<SecCertificate> {
-                        logger.debug("Device certificates found: \(serverCertificates.count)")
+                        logger.info("Device certificates found: \(serverCertificates.count)")
                         for serverCertificate in serverCertificates {
                             let serverCertificateData = SecCertificateCopyData(serverCertificate)
                             let data = CFDataGetBytePtr(serverCertificateData);
@@ -116,10 +117,10 @@ extension AdyenTerminalAPI: URLSessionDelegate {
                             SecCertificateCopyCommonName(serverCertificate, &cfName)
 
                             if cert1.isEqual(to: certificateData) {
-                                logger.debug("CERTIFICATE \(cfName.debugDescription) IS VALID")
+                                logger.info("Device certificate \(cfName.debugDescription) is valid!")
                                 return (URLSession.AuthChallengeDisposition.useCredential, URLCredential(trust:serverTrust))
                             } else {
-                                logger.debug("CERTIFICATE \(cfName.debugDescription) IS NOT VALID")
+                                logger.info("Device certificate \(cfName.debugDescription) is not valid!")
                             }
                         }
                         logger.info("Trust certificate NOT FOUND, accepting authentication challenge anyway :/")
