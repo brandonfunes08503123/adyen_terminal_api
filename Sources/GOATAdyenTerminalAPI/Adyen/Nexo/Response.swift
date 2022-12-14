@@ -11,4 +11,16 @@ public struct Response: Codable {
     public var additionalResponse: String?
     public var result: ResultType
     public var errorCondition: ErrorConditionType?
+    
+    public var parsedAdditionalResponse: [String: String] {
+        guard let additionalResponse = additionalResponse else { return [:] }
+
+        var result: [String: String] = [:]
+        additionalResponse.components(separatedBy: "&").forEach { (line: String) in
+            let items = line.components(separatedBy: "=")
+            result[items[0]] = items[1]
+        }
+
+        return result
+    }
 }
