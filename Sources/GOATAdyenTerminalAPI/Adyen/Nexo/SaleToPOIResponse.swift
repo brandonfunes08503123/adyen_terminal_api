@@ -17,13 +17,14 @@ public struct SaleToPOIResponse<R:TerminalResponse>: Decodable {
         case getTotalsResponse
         case loginResponse
         case reversalResponse
+        case abortResponse
     }
     
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         let allKeys = Set(values.allKeys)
-        let responseKeys = Set([CodingKeys.paymentResponse, CodingKeys.getTotalsResponse, CodingKeys.loginResponse, CodingKeys.reversalResponse])
+        let responseKeys = Set([CodingKeys.paymentResponse, CodingKeys.getTotalsResponse, CodingKeys.loginResponse, CodingKeys.reversalResponse, CodingKeys.abortResponse])
         guard let responseKey = allKeys.intersection(responseKeys).first else { fatalError("SaleToPOIResponse: Response decoding key not found") }
         
         messageHeader = try values.decode(MessageHeader.self, forKey: .messageHeader)

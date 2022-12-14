@@ -8,6 +8,7 @@
 import Foundation
 
 public enum MessageCategory: String, Codable {
+    case abort = "Abort"
     case payment = "Payment"
     case getTotals = "GetTotals"
     case login = "Login"

@@ -17,6 +17,7 @@ public struct SaleToPOIRequest<T:TerminalRequest>: Encodable {
         case getTotalsRequest
         case loginRequest
         case reversalRequest
+        case abortRequest
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -35,6 +36,8 @@ public struct SaleToPOIRequest<T:TerminalRequest>: Encodable {
             return .getTotalsRequest
         case is ReversalRequest:
             return .reversalRequest
+        case is AbortRequest:
+            return .abortRequest
         default:
             fatalError("Missing key for request of type: \(request.self)")
         }

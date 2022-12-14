@@ -33,23 +33,7 @@ class AdyenTerminalAPI: NSObject {
     func perform<T:TerminalRequest, R:TerminalResponse>(request: AdyenTerminalRequest<T>) async throws -> AdyenTerminalResponse<R> {
         let encryptor = SaleToPOIMessageSecuredEncryptor()
         let credentials = terminal.encryptionCredentialDetails
-
-        let data = try encoder.encode(request)
-        guard let text = String(data: data, encoding: .ascii) else {
-            throw AdyenTerminalAPIError.unknown(error: "Error while encoding the payment request")
-        }
-
-        logger.info("ADYEN DECODED REQUEST: \(text)")
-
-        let saleToPOIRequest = try encryptor.encrypt(saleToPOIMessage: text, messageHeader: request.saleToPOIRequest.messageHeader, encryptionCredentialDetails: credentials)
-        
-        let SaleToPOIRequestSecured = SaleToPOIRequestSecured(saleToPOIRequest: saleToPOIRequest)
-        let encodedSaleToPOIRequestSecuredData = try encoder.encode(SaleToPOIRequestSecured)
-
-        if let logline = String(data: encodedSaleToPOIRequestSecuredData, encoding: .utf8) {
-            logger.info("ADYEN ENCODED RESPONSE: \(logline)")
-        }
-
+        let encodedSaleToPOIRequestSecuredData = try encodeRequest(request: request)
         do {
             let responseData = try await self.performRequest(encodedSaleToPOIRequestSecuredData: encodedSaleToPOIRequestSecuredData)
             let securedResponse = try decoder.decode(SaleToPOIResponseSecured.self, from: responseData)
@@ -64,6 +48,43 @@ class AdyenTerminalAPI: NSObject {
             throw error
         }
     }
+    
+    func performResponseless<T:TerminalRequest>(request: AdyenTerminalRequest<T>) async throws {
+        let encodedSaleToPOIRequestSecuredData = try encodeRequest(request: request)
+
+        do {
+            _ = try await self.performRequest(encodedSaleToPOIRequestSecuredData: encodedSaleToPOIRequestSecuredData)
+        } catch {
+            if let error = error as? URLError, error.code == .serverCertificateUntrusted {
+                throw AdyenTerminalAPIError.serverCertificateUntrusted
+            }
+
+            throw error
+        }
+    }
+    
+    private func encodeRequest<T:TerminalRequest>(request: AdyenTerminalRequest<T>) throws -> Data {
+        let encryptor = SaleToPOIMessageSecuredEncryptor()
+        let credentials = terminal.encryptionCredentialDetails
+
+        let data = try encoder.encode(request)
+        guard let text = String(data: data, encoding: .ascii) else {
+            throw AdyenTerminalAPIError.unknown(error: "Error while encoding the request")
+        }
+
+        logger.info("ADYEN DECODED REQUEST: \(text)")
+
+        let saleToPOIRequest = try encryptor.encrypt(saleToPOIMessage: text, messageHeader: request.saleToPOIRequest.messageHeader, encryptionCredentialDetails: credentials)
+        
+        let SaleToPOIRequestSecured = SaleToPOIRequestSecured(saleToPOIRequest: saleToPOIRequest)
+        let encodedSaleToPOIRequestSecuredData = try encoder.encode(SaleToPOIRequestSecured)
+
+        if let logline = String(data: encodedSaleToPOIRequestSecuredData, encoding: .utf8) {
+            logger.info("ADYEN ENCODED REQUEST: \(logline)")
+        }
+        
+        return encodedSaleToPOIRequestSecuredData
+    }
 
     private func performRequest(encodedSaleToPOIRequestSecuredData: Data) async throws -> Data {
         let deviceURL = URL(string: "https://\(terminal.ip):8443/nexo")!
@@ -73,6 +94,10 @@ class AdyenTerminalAPI: NSObject {
         
         logger.info("ADYEN REQUEST: \(String(data: encodedSaleToPOIRequestSecuredData, encoding: .utf8)!)")
         let urlSession = URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: .main)
+//        urlSession.configuration.timeoutIntervalForRequest = 120
+        urlSession.configuration.timeoutIntervalForRequest = 10
+        urlSession.configuration.timeoutIntervalForResource = 10
+
         let (data, response) = try await urlSession.data(for: urlRequest)
         if let rs = response as? HTTPURLResponse, let responseText = String(data: data, encoding: .utf8) {
             logger.info("ADYEN RESPONSE [\(rs.statusCode)]: \(responseText)")
