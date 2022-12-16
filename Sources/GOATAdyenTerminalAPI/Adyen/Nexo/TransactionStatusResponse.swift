@@ -9,23 +9,23 @@ import Foundation
 
 public class TransactionStatusResponse: TerminalResponse {
     public let messageReference: MessageReference?
-    public let repeatedResponseMessageBody: RepeatedResponseMessageBody
+    public let repeatedMessageResponse: RepeatedMessageResponse
     
     enum CodingKeys: CodingKey {
         case messageReference
-        case repeatedResponseMessageBody
+        case repeatedMessageResponse
     }
 
-    init(response: Response, pOIData: POIData, messageReference: MessageReference, repeatedResponseMessageBody: RepeatedResponseMessageBody) {
+    init(response: Response, pOIData: POIData, messageReference: MessageReference, repeatedMessageResponse: RepeatedMessageResponse) {
         self.messageReference = messageReference
-        self.repeatedResponseMessageBody = repeatedResponseMessageBody
+        self.repeatedMessageResponse = repeatedMessageResponse
         super.init(response: response, pOIData: pOIData)
     }
 
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         messageReference = try values.decodeIfPresent(MessageReference.self, forKey: .messageReference)
-        repeatedResponseMessageBody = try values.decode(RepeatedResponseMessageBody.self, forKey: .repeatedResponseMessageBody)
+        repeatedMessageResponse = try values.decode(RepeatedMessageResponse.self, forKey: .repeatedMessageResponse)
         try super.init(from: decoder)
     }
 }
