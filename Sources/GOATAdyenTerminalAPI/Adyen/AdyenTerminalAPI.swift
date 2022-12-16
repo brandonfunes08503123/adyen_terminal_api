@@ -40,11 +40,27 @@ class AdyenTerminalAPI: NSObject {
             let response = try encryptor.descrypt(saleToPOIMessageSecured: securedResponse.saleToPOIResponse, encryptionCredentialDetails: credentials)
             logger.info("ADYEN DECODED RESPONSE: \(String(data: response, encoding: .utf8)!)")
             return try decoder.decode(AdyenTerminalResponse.self, from: response)
-        } catch {
-            if let error = error as? URLError, error.code == .serverCertificateUntrusted {
+        } catch let error as URLError {
+            if error.code == .serverCertificateUntrusted {
                 throw AdyenTerminalAPIError.serverCertificateUntrusted
             }
-
+            throw error
+        } catch let error as DecodingError {
+            var errorDescription = ""
+            switch error {
+            case .typeMismatch(let key, let value):
+                errorDescription = "\(error.localizedDescription) [TypeMismatch with key: \(key), value: \(value)]"
+            case .valueNotFound(let key, let value):
+                errorDescription = "\(error.localizedDescription) [ValueNotFound with key: \(key), value: \(value)]"
+            case .keyNotFound(let key, let value):
+                errorDescription = "\(error.localizedDescription) [KeyNotFound with key: \(key), value: \(value)]"
+            case .dataCorrupted(let key):
+                errorDescription = "\(error.localizedDescription) [DataCorrupted with key: \(key)]"
+            default:
+                errorDescription = error.localizedDescription
+            }
+            throw AdyenTerminalAPIError.decoding(error: errorDescription)
+        } catch {
             throw error
         }
     }

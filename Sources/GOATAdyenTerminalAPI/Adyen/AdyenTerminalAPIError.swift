@@ -9,6 +9,7 @@ import Foundation
 
 enum AdyenTerminalAPIError: LocalizedError {
     case adyen(error: String)
+    case decoding(error: String)
     case unknown(error: String)
     case serverCertificateUntrusted
 
@@ -16,6 +17,8 @@ enum AdyenTerminalAPIError: LocalizedError {
         switch self {
         case .adyen(error: let error):
             return "Payment terminal response: \(error)"
+        case .decoding(error: let error):
+            return "Error decoding server data: \(error)"
         case .unknown(error: let error):
             return "Unknown error: \(error)"
         case .serverCertificateUntrusted:

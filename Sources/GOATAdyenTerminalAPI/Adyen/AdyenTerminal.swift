@@ -11,22 +11,19 @@ import Foundation
 public struct AdyenTerminal {
     public let ip: String
     public let saleID: String
-    public let name: String
     public let poiId: String
     public let encryptionCredentialDetails: EncryptionCredentialDetails
 
-    public init(ip: String, saleID: String, name: String, poiId: String, encryptionCredentialDetails: EncryptionCredentialDetails) {
+    public init(ip: String, saleID: String, poiId: String, encryptionCredentialDetails: EncryptionCredentialDetails) {
         self.ip = ip
         self.saleID = saleID
-        self.name = name
         self.poiId = poiId
         self.encryptionCredentialDetails = encryptionCredentialDetails
     }
 
-    public func login(serviceID: String, operatorID: String, totalsGroupID: String) async throws -> LoginResponse {
+    public func login(serviceID: String, saleSoftware: SaleSoftware, operatorID: String, totalsGroupID: String) async throws -> LoginResponse {
         let messageHeader = MessageHeader(protocolVersion: "3.0", messageClass: .service, messageCategory: .login, messageType: .request, serviceID: serviceID, deviceID: nil, saleID: saleID, pOIID: poiId)
 
-        let saleSoftware = SaleSoftware(manufacturerID: .goatgroup, applicationName: "FC-POS", softwareVersion: "1.2", certificationCode: "")
         let saleTerminalData = SaleTerminalData(totalsGroupID: totalsGroupID)
         let loginRequest = LoginRequest(dateTime: Date(), saleSoftware: saleSoftware, saleTerminalData: saleTerminalData, operatorLanguage: .english, operatorID: operatorID)
         
@@ -77,10 +74,10 @@ public struct AdyenTerminal {
         try await api.performResponseless(request: request)
     }
 
-    public func transactionStatus(serviceID: String) async throws -> TransactionStatusResponse {
+    public func transactionStatus(serviceID: String, statusServiceID: String) async throws -> TransactionStatusResponse {
         let messageHeader = MessageHeader(protocolVersion: "3.0", messageClass: .service, messageCategory: .transactionStatus, messageType: .request, serviceID: serviceID, deviceID: nil, saleID: saleID, pOIID: poiId)
         
-        let messageReference = MessageReference(messageCategory: .payment, serviceID: serviceID, deviceID: nil, saleID: saleID, pOIID: poiId)
+        let messageReference = MessageReference(messageCategory: .payment, serviceID: statusServiceID, deviceID: nil, saleID: saleID, pOIID: poiId)
         let transactionStatusRequest = TransactionStatusRequest(messageReference: messageReference, receiptReprintFlag: false, documentQualifier: [])
         
         return try await self.perform(header: messageHeader, terminalRequest: transactionStatusRequest)
