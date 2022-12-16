@@ -53,7 +53,9 @@ public struct AdyenTerminal {
 
         let reversalRequest = ReversalRequest(originalPOITransaction: OriginalPOITransaction(pOITransactionID: originalTransaction), reversalReason: .merchantCancel)
         
-        return try await self.perform(header: messageHeader, terminalRequest: reversalRequest)
+        let reversalResponse:ReversalResponse = try await self.perform(header: messageHeader, terminalRequest: reversalRequest)
+        
+        return reversalResponse
     }
 
     public func getTotals() async throws -> GetTotalsResponse {
@@ -88,7 +90,7 @@ public struct AdyenTerminal {
 
         let api = AdyenTerminalAPI(terminal: self)
         let terminalResponse: AdyenTerminalResponse<R> = try await api.perform(request: request)
-        
+
         let response = terminalResponse.saleToPOIResponse.response.response
 
         guard response.result == .success else {

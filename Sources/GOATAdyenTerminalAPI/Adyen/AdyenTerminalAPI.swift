@@ -49,13 +49,13 @@ class AdyenTerminalAPI: NSObject {
             var errorDescription = ""
             switch error {
             case .typeMismatch(let key, let value):
-                errorDescription = "\(error.localizedDescription) [TypeMismatch with key: \(key), value: \(value)]"
+                errorDescription = "\(error.localizedDescription) [TypeMismatch for \(R.self) with key: \(key), value: \(value)]"
             case .valueNotFound(let key, let value):
-                errorDescription = "\(error.localizedDescription) [ValueNotFound with key: \(key), value: \(value)]"
+                errorDescription = "\(error.localizedDescription) [ValueNotFound for \(R.self) with key: \(key), value: \(value)]"
             case .keyNotFound(let key, let value):
-                errorDescription = "\(error.localizedDescription) [KeyNotFound with key: \(key), value: \(value)]"
+                errorDescription = "\(error.localizedDescription) [KeyNotFound for \(R.self) with key: \(key), value: \(value)]"
             case .dataCorrupted(let key):
-                errorDescription = "\(error.localizedDescription) [DataCorrupted with key: \(key)]"
+                errorDescription = "\(error.localizedDescription) [DataCorrupted for \(R.self) with key: \(key)]"
             default:
                 errorDescription = error.localizedDescription
             }
