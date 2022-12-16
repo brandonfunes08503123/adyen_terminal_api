@@ -17,12 +17,26 @@ enum AdyenTerminalAPIError: LocalizedError {
         switch self {
         case .adyen(error: let error):
             return "Payment terminal response: \(error)"
-        case .decoding(error: let error):
-            return "Error decoding server data: \(error)"
+        case .decoding:
+            return "Error decoding server data."
         case .unknown(error: let error):
             return "Unknown error: \(error)"
         case .serverCertificateUntrusted:
             return "Payment device security certificate is untrusted."
         }
     }
+    
+    var failureReason: String? {
+        switch self {
+        case .adyen(error: let error):
+            return error
+        case .decoding(error: let error):
+            return error
+        case .unknown(error: let error):
+            return error
+        case .serverCertificateUntrusted:
+            return "Payment device security certificate is untrusted."
+        }
+    }
+
 }
