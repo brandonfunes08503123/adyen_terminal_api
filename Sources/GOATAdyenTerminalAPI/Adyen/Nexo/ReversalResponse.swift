@@ -25,7 +25,7 @@ public class ReversalResponse: TerminalResponse {
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         reversedAmount = try values.decodeIfPresent(SimpleAmount.self, forKey: .reversedAmount)
-        paymentReceipt = try values.decode(Array<PaymentReceipt>.self, forKey: .paymentReceipt)
+        paymentReceipt = try values.decode([PaymentReceipt].self, forKey: .paymentReceipt)
         try super.init(from: decoder)
     }
 }

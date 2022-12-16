@@ -11,7 +11,7 @@ public struct SaleToPOIResponse<R:TerminalResponse>: Decodable {
     public let messageHeader: MessageHeader
     public let response: R
     
-    enum CodingKeys: CodingKey, CaseIterable {
+    enum CodingKeys: CodingKey {
         case messageHeader
         case paymentResponse
         case getTotalsResponse
@@ -25,7 +25,15 @@ public struct SaleToPOIResponse<R:TerminalResponse>: Decodable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         let allKeys = Set(values.allKeys)
-        guard let responseKey = allKeys.intersection(CodingKeys.allCases).first else { fatalError("SaleToPOIResponse: Response decoding key not found") }
+        let responseKeys = Set<CodingKeys>([
+            .paymentResponse,
+            .getTotalsResponse,
+            .loginResponse,
+            .reversalResponse,
+            .abortResponse,
+            .transactionStatusResponse
+        ])
+        guard let responseKey = allKeys.intersection(responseKeys).first else { fatalError("SaleToPOIResponse: Response decoding key not found") }
         
         messageHeader = try values.decode(MessageHeader.self, forKey: .messageHeader)
         response = try values.decode(R.self, forKey: responseKey)
