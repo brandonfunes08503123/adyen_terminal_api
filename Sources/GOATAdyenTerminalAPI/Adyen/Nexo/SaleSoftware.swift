@@ -8,8 +8,15 @@
 import Foundation
 
 public struct SaleSoftware: Encodable {
-    public let manufacturerID: ManufacturerID
+    public let manufacturerID: String
     public let applicationName: String
     public let softwareVersion: String
     public let certificationCode: String
+    
+    public init(manufacturerID: String, applicationName: String, softwareVersion: String, certificationCode: String) {
+        self.manufacturerID = manufacturerID
+        self.applicationName = applicationName
+        self.softwareVersion = softwareVersion
+        self.certificationCode = certificationCode
+    }
 }
