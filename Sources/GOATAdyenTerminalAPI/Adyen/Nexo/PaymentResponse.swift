@@ -8,7 +8,7 @@
 import Foundation
 
 public class PaymentResponse: TerminalResponse {
-    public let saleData: SaleData?
+    public let saleData: SaleData
     public let paymentResult: PaymentResult?
 
     enum CodingKeys: CodingKey {
@@ -24,7 +24,7 @@ public class PaymentResponse: TerminalResponse {
 
     required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        saleData = try values.decodeIfPresent(SaleData.self, forKey: .saleData)
+        saleData = try values.decode(SaleData.self, forKey: .saleData)
         paymentResult = try values.decodeIfPresent(PaymentResult.self, forKey: .paymentResult)
         try super.init(from: decoder)
     }    

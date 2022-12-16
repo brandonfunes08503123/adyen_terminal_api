@@ -8,7 +8,7 @@
 import Foundation
 
 public enum AdyenTerminalAPIError: LocalizedError {
-    case adyen(error: String, additionalResponse: String?)
+    case adyen(error: String, additionalResponse: [String:String])
     case decoding(error: String)
     case unknown(error: String)
     case serverCertificateUntrusted
@@ -29,7 +29,7 @@ public enum AdyenTerminalAPIError: LocalizedError {
     public var failureReason: String? {
         switch self {
         case .adyen(error: let error, additionalResponse: let additionalResponse):
-            return additionalResponse ?? error
+            return additionalResponse["message"] ?? error
         case .decoding(error: let error):
             return error
         case .unknown(error: let error):

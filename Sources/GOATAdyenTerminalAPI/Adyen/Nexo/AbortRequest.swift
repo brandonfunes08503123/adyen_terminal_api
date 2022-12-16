@@ -7,15 +7,6 @@
 
 import Foundation
 
-
-public struct MessageReference: Codable {
-    public let messageCategory: MessageCategory
-    public let serviceID: String?
-    public let deviceID: String?
-    public let saleID: String?
-    public let pOIID: String?
-}
-                
 public class AbortRequest: TerminalRequest {
     let messageReference: MessageReference
     let abortReason: String

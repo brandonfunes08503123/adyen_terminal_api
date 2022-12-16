@@ -93,7 +93,7 @@ public struct AdyenTerminal {
 
         guard response.result == .success else {
             if let condition = response.errorCondition {
-                throw AdyenTerminalAPIError.adyen(error: condition.rawValue, additionalResponse: response.parsedAdditionalResponse["message"])
+                throw AdyenTerminalAPIError.adyen(error: condition.rawValue, additionalResponse: response.parsedAdditionalResponse)
             } else {
                 throw AdyenTerminalAPIError.unknown(error: "Unknown error condition")
             }
