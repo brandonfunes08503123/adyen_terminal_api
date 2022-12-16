@@ -94,7 +94,6 @@ class AdyenTerminalAPI: NSObject {
         
         logger.info("ADYEN REQUEST: \(String(data: encodedSaleToPOIRequestSecuredData, encoding: .utf8)!)")
         let urlSession = URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: .main)
-//        urlSession.configuration.timeoutIntervalForRequest = 120
         urlSession.configuration.timeoutIntervalForRequest = 10
         urlSession.configuration.timeoutIntervalForResource = 10
 

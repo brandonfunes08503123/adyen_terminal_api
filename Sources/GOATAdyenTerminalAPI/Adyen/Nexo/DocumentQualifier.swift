@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum DocumentQualifier: String, Decodable {
+public enum DocumentQualifier: String, Codable {
     case saleReceipt = "SaleReceipt"
     case cashierReceipt = "CashierReceipt"
     case customerReceipt = "CustomerReceipt"

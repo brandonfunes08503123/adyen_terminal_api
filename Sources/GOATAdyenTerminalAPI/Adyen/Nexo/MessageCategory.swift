@@ -13,4 +13,5 @@ public enum MessageCategory: String, Codable {
     case getTotals = "GetTotals"
     case login = "Login"
     case reversal = "Reversal"
+    case transactionStatus = "TransactionStatus"
 }
