@@ -87,7 +87,7 @@ public struct AdyenTerminal {
         let request = AdyenTerminalRequest<P>(saleToPOIRequest: SaleToPOIRequest(messageHeader: header, request: terminalRequest))
 
         let api = AdyenTerminalAPI(terminal: self)
-        let terminalResponse: AdyenTerminalResponse<PaymentResponse> = try await api.perform(request: request)
+        let terminalResponse: AdyenTerminalResponse<R> = try await api.perform(request: request)
         
         let response = terminalResponse.saleToPOIResponse.response.response
 
@@ -99,7 +99,7 @@ public struct AdyenTerminal {
             }
         }
         
-        return terminalResponse.saleToPOIResponse.response as! R
+        return terminalResponse.saleToPOIResponse.response
     }
 }
 
