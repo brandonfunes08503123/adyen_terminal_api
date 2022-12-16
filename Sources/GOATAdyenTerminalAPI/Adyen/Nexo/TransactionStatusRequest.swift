@@ -23,7 +23,7 @@ public class TransactionStatusRequest: TerminalRequest {
         self.receiptReprintFlag = receiptReprintFlag
         self.documentQualifier = documentQualifier
     }
-    
+
     override public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(messageReference, forKey: .messageReference)
