@@ -14,6 +14,7 @@ class AdyenTerminalAPI: NSObject {
     let terminal: AdyenTerminal
     let encoder = JSONEncoder()
     let decoder = JSONDecoder()
+    var urlSession: URLSession!
 
     init(terminal: AdyenTerminal) {
         self.terminal = terminal
@@ -103,16 +104,19 @@ class AdyenTerminalAPI: NSObject {
     }
 
     private func performRequest(encodedSaleToPOIRequestSecuredData: Data) async throws -> Data {
+        if self.urlSession == nil {
+            let configuration = URLSessionConfiguration.default
+            configuration.timeoutIntervalForRequest = 120
+            configuration.timeoutIntervalForResource = 120
+            self.urlSession = URLSession(configuration: configuration, delegate: self, delegateQueue: .main)
+        }
+        
         let deviceURL = URL(string: "https://\(terminal.ip):8443/nexo")!
         var urlRequest = URLRequest(url: deviceURL)
         urlRequest.httpMethod = "POST"
         urlRequest.httpBody = encodedSaleToPOIRequestSecuredData
-        
+
         logger.info("ADYEN REQUEST: \(String(data: encodedSaleToPOIRequestSecuredData, encoding: .utf8)!)")
-        let configuration = URLSessionConfiguration.default
-        configuration.timeoutIntervalForRequest = 120
-        configuration.timeoutIntervalForResource = 120
-        let urlSession = URLSession(configuration: configuration, delegate: self, delegateQueue: .main)
 
         let (data, response) = try await urlSession.data(for: urlRequest)
         if let rs = response as? HTTPURLResponse, let responseText = String(data: data, encoding: .utf8) {
