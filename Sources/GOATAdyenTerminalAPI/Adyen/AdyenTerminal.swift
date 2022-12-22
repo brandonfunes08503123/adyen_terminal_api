@@ -9,6 +9,7 @@ import Foundation
 
 /// A representation of the hardware payment device. It allows to perform all the actions we need from the device: payments, refunds, etc.
 public struct AdyenTerminal {
+    public var timeout: TimeInterval = 120
     public let ip: String
     public let saleID: String
     public let poiId: String

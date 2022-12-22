@@ -106,8 +106,8 @@ class AdyenTerminalAPI: NSObject {
     private func performRequest(encodedSaleToPOIRequestSecuredData: Data) async throws -> Data {
         if self.urlSession == nil {
             let configuration = URLSessionConfiguration.default
-            configuration.timeoutIntervalForRequest = 120
-            configuration.timeoutIntervalForResource = 120
+            configuration.timeoutIntervalForRequest = terminal.timeout
+            configuration.timeoutIntervalForResource = terminal.timeout
             self.urlSession = URLSession(configuration: configuration, delegate: self, delegateQueue: .main)
         }
         
