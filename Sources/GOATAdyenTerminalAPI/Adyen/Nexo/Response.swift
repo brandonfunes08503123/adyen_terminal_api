@@ -18,7 +18,7 @@ public struct Response: Codable {
         var result: [String: String] = [:]
         additionalResponse.components(separatedBy: "&").forEach { (line: String) in
             let items = line.components(separatedBy: "=")
-            result[items[0]] = items[1]
+            result[items[0]] = items[1].removingPercentEncoding
         }
 
         return result
