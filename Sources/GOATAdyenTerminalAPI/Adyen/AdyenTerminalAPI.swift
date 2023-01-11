@@ -42,10 +42,14 @@ class AdyenTerminalAPI: NSObject {
             logger.info("ADYEN DECODED RESPONSE: \(String(data: response, encoding: .utf8)!)")
             return try decoder.decode(AdyenTerminalResponse.self, from: response)
         } catch let error as URLError {
-            if error.code == .serverCertificateUntrusted {
+            switch error.code {
+            case .cannotConnectToHost:
+                throw AdyenTerminalAPIError.cannotConnectToHost
+            case .serverCertificateUntrusted:
                 throw AdyenTerminalAPIError.serverCertificateUntrusted
+            default:
+                throw error
             }
-            throw error
         } catch let error as DecodingError {
             var errorDescription = ""
             switch error {
@@ -136,7 +140,7 @@ extension AdyenTerminalAPI: URLSessionDelegate {
             if let serverTrust = challenge.protectionSpace.serverTrust {
                 var error: CFError?
                 let isServerTrusted = SecTrustEvaluateWithError(serverTrust, &error)
-                
+
                 if error != nil {
                     logger.info("Warning, server is trusted: \(error?.localizedDescription ?? "---"). Will try to evaluate server trust using internal certificate.")
                 }

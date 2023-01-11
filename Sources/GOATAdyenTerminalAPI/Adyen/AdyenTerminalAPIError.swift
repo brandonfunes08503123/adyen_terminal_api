@@ -12,6 +12,7 @@ public enum AdyenTerminalAPIError: LocalizedError {
     case decoding(error: String)
     case unknown(error: String)
     case serverCertificateUntrusted
+    case cannotConnectToHost
 
     public var errorDescription: String? {
         switch self {
@@ -23,6 +24,8 @@ public enum AdyenTerminalAPIError: LocalizedError {
             return "Unknown error: \(error)"
         case .serverCertificateUntrusted:
             return "Payment device security certificate is untrusted."
+        case .cannotConnectToHost:
+            return "Cannot connect to the payment device."
         }
     }
     
@@ -34,8 +37,8 @@ public enum AdyenTerminalAPIError: LocalizedError {
             return error
         case .unknown(error: let error):
             return error
-        case .serverCertificateUntrusted:
-            return "Payment device security certificate is untrusted."
+        default:
+            return errorDescription
         }
     }
 
