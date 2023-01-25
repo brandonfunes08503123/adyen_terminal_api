@@ -10,4 +10,5 @@ import Foundation
 public struct PaymentResult: Decodable {
     public let amountsResp: SimpleAmount?
     public let paymentInstrumentData: PaymentInstrumentData?
+    public let paymentAcquirerData: PaymentAcquirerData?
 }
